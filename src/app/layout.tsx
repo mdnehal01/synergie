@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import db from "@/lib/supabase/db";
+import { ThemeProvider } from "@/components/theme-provider";
+import { DM_Sans } from 'next/font/google';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -11,7 +13,7 @@ const geistSans = localFont({
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
-  weight: "100 900",
+  weight: "100 900", 
 });
 
 export const metadata: Metadata = {
@@ -29,9 +31,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background `}
       >
-        {children}
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
