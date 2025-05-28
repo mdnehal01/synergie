@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Loader from '@/components/Loader';
 import { actionLoginUser } from '@/lib/actions/auth-actions';
+import Logo from "@/../public/images/logo.png";
 
 const LoginPage = () => {
     const router = useRouter();
@@ -32,7 +33,7 @@ const LoginPage = () => {
             form.reset();
             setSubmitErr(error.message);
         }
-        router.replace('/dashboard')
+        router.replace('/dashboard ')
     };
 
     return (
@@ -52,9 +53,9 @@ const LoginPage = () => {
                         items-center
                     '
                 >   
-                    <Image src={"/"} height={50} width={50} alt="Synergie Logo"/>
+                    <Image src={Logo} height={50} width={50} alt="Synergie Logo"/>
                     <span className='font-semibold text-4xl first-letter:ml-2'>
-                        Synergie
+                        synergie.
                     </span>
                 </Link>
 
@@ -68,7 +69,7 @@ const LoginPage = () => {
                     control={form.control}
                     name='email'
                     render={
-                        (field) => (
+                        ({field}) => (
                             <FormItem>
                                 <FormControl>
                                     <Input type='email' placeholder='Email' {...field} />
@@ -87,7 +88,7 @@ const LoginPage = () => {
                     control={form.control}
                     name='password'
                     render={
-                        (field) => (
+                        ({field}) => (
                             <FormItem>
                                 <FormControl>
                                     <Input type='password' placeholder='Password' {...field} />
@@ -103,7 +104,7 @@ const LoginPage = () => {
                     {!isLoading ? 'Login' : <Loader/>}
                 </Button>
                 <span className='self-center'>
-                    Don't have an account? 
+                    Don&apos;t have an account? 
                     <Link href={"/signup"} className='text-primary-purple-300'> Sign up</Link>
                 </span>
             </form>
