@@ -2,47 +2,41 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormSchema } from '@/lib/types';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import Loader from '@/components/Loader';
+import Loader from '@/components/global/Loader';
 import { actionLoginUser } from '@/lib/actions/auth-actions';
 import Logo from "@/../public/images/logo.png";
 
 const LoginPage = () => {
     const router = useRouter();
     const [submitErr, setSubmitErr] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const form = useForm<z.infer<typeof FormSchema>>({
-        mode:"onChange",
-        resolver: zodResolver(FormSchema),
-        defaultValues: {email:'', password:''}
-    })
+    const [email,setMail] = useState('');
+    const [password, setPass] = useState('');
 
-    const isLoading = form.formState.isSubmitting;
-
-    const onSubmit:SubmitHandler<z.infer<typeof FormSchema>> = async (formData) =>  {
-        const {error} = await actionLoginUser(formData);
+    const handleSubmit = async (e:React.FormEvent) =>  {
+        e.preventDefault()
+        setIsLoading(true);
+        const {error} = await actionLoginUser({email, password});
         if(error){
-            form.reset();
+            setIsLoading(false);
             setSubmitErr(error.message);
         }
+        setIsLoading(false)
         router.replace('/dashboard ')
     };
 
     return (
-        <Form {...form}>
             <form
                 onChange={() => {
                     if(submitErr) setSubmitErr('');
                 }}
-            onSubmit={form.handleSubmit(onSubmit)} className='w-full sm:justify-center sm:w-[400px] space-y-6 flex flex-col'>
+                onSubmit={handleSubmit} 
+                className='w-full sm:justify-center sm:w-[400px] space-y-6 flex flex-col'>
 
                 <Link 
                     href={"/"} 
@@ -59,47 +53,20 @@ const LoginPage = () => {
                     </span>
                 </Link>
 
-                <FormDescription className='text-foreground/60'>
+                <span className='text-foreground/60'>
                     All in one Collaboration Lorem ipsum dolor sit amet.
-                </FormDescription>
+                </span>
 
                 {/* FORM FIELD FOR EMAIL */}
-                <FormField 
-                    disabled={isLoading}
-                    control={form.control}
-                    name='email'
-                    render={
-                        ({field}) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Input type='email' placeholder='Email' {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )
-                    }
-                >
-                </FormField>
+                <Input type='email' placeholder='Email' value={email} onChange={(event) => {
+                    setMail(event.target.value)
+                }}/>
 
-
-                {/* FORM FIELD FOR PASSWORD */}
-                <FormField 
-                    disabled={isLoading}
-                    control={form.control}
-                    name='password'
-                    render={
-                        ({field}) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Input type='password' placeholder='Password' {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )
-                    }
-                >
-                </FormField>
-                {submitErr && <FormMessage>{submitErr}</FormMessage>}
+                <Input type='password' placeholder='Password' value={password} onChange={(event) => {
+                    setPass(event.target.value)
+                }}/>
+ 
+                {submitErr && <span>{submitErr}</span>}
                 <Button type='submit' className='w-full p-6' size="lg" disabled={isLoading}>
                     {!isLoading ? 'Login' : <Loader/>}
                 </Button>
@@ -108,7 +75,6 @@ const LoginPage = () => {
                     <Link href={"/signup"} className='text-primary-purple-300'> Sign up</Link>
                 </span>
             </form>
-        </Form>
     )
 }
 

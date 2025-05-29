@@ -9,7 +9,7 @@ import React, { useMemo, useState } from 'react';
 
 
 import Logo from '@/../public/images/logo.png';
-import Loader from '@/components/Loader';
+import Loader from '@/components/global/Loader';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { MailCheck } from 'lucide-react';
 import { actionSignUpUser } from '@/lib/actions/auth-actions';

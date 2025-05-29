@@ -10,11 +10,22 @@ export async function actionLoginUser({
   password,
 }: z.infer<typeof FormSchema>) {
   const supabase = createRouteHandlerClient({ cookies });
-  const response = await supabase.auth.signInWithPassword({
+
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
-  return response;
+
+  
+  return {
+    user: data?.user ?? null,
+    session: data?.session ? {
+      access_token: data.session.access_token,
+      refresh_token: data.session.refresh_token,
+      expires_in: data.session.expires_in,
+    } : null,
+    error: error ? { message: error.message } : null,
+  };
 }
 
 export async function actionSignUpUser({

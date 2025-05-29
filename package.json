@@ -19,6 +19,7 @@
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-navigation-menu": "^1.2.13",
+    "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.6.1",
@@ -27,6 +28,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.43.1",
+    "emoji-picker-react": "^4.12.2",
     "lucide-react": "^0.511.0",
     "next": "14.2.29",
     "next-themes": "^0.4.6",
@@ -38,6 +40,7 @@
     "styled-components": "^6.1.18",
     "tailwind-merge": "^3.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.1.0",
     "zod": "^3.25.30"
   },
   "devDependencies": {
@@ -48,6 +51,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.29",
     "postcss": "^8",
+    "supabase": "^2.23.4",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
